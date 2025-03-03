@@ -15,7 +15,10 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-
+/*
+    Modifications:
+    - 2025-03-03: tacowasa059 - Change the range of settings available in config.
+*/
 package com.wildfire.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -140,12 +143,14 @@ public class GenderLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<A
 			BreastPhysics leftBreastPhysics = plr.getLeftBreastPhysics();
 			final float bSize = leftBreastPhysics.getBreastSize(partialTicks);
 			float outwardAngle = (Math.round(breasts.getCleavage() * 100f) / 100f) * 100f;
-			outwardAngle = Math.min(outwardAngle, 10);
+			outwardAngle = Math.max(Math.min(outwardAngle, 30), -10);
 
 
-			float reducer = 0;
-			if (bSize < 0.84f) reducer++;
-			if (bSize < 0.72f) reducer++;
+			float reducer = -2;
+			if (bSize < 2.8f) reducer ++;
+			if (bSize < 1.4f) reducer ++;
+			if (bSize < 0.84f) reducer ++;
+			if (bSize < 0.72f) reducer ++;
 
 			if (preBreastSize != bSize) {
 				lBreast = new BreastModelBox(64, 64, 16, 17, -4F, 0.0F, 0F, 4, 5, (int) (4 - breastOffsetZ - reducer), 0.0F, false);

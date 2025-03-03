@@ -15,7 +15,10 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-
+/*
+    Modifications:
+    - 2025-03-03: tacowasa059 - Update version.
+*/
 package com.wildfire.main;
 
 import com.mojang.logging.LogUtils;
@@ -41,7 +44,7 @@ import org.slf4j.Logger;
 @Mod(WildfireGender.MODID)
 public class WildfireGender {
 
-	public static final String VERSION = "3.0.1";
+	public static final String VERSION = "3.0.2";
   	public static final String MODID = "wildfire_gender";
 	public static final Logger logger = LogUtils.getLogger();
 
