@@ -1,0 +1,74 @@
+{
+  "category.wildfire_gender.generic": "Wildfireのジェンダーモッド",
+  "key.wildfire_gender.gender_menu": "ジェンダーメニュー",
+  "toast.wildfire_gender.get_started": "始めるには '%s' を押してください！",
+
+  "wildfire_gender.hurt.female": "女性プレイヤーがダメージを受けた",
+
+  "wildfire_gender.player_list.title": "ジェンダーモッド",
+  "wildfire_gender.player_list.settings_button": "設定",
+  "wildfire_gender.player_list.sync_status": "同期状態",
+  "wildfire_gender.player_list.state.loading": "データを読み込み中...",
+  "wildfire_gender.player_list.state.synced": "同期済みプレイヤー",
+
+  "wildfire_gender.wardrobe.title": "Wildfireのジェンダーモッド",
+  "wildfire_gender.breast_customization.tab_customization": "カスタマイズ",
+  "wildfire_gender.breast_customization.tab_presets": "プリセット",
+
+  "wildfire_gender.breast_customization.presets.add_new": "新規追加...",
+  "wildfire_gender.breast_customization.presets.delete": "削除",
+  "wildfire_gender.breast_customization.presets.none": "プリセットが見つかりません",
+
+  "wildfire_gender.wardrobe.slider.breast_size": "胸のサイズ: %s%%",
+  "wildfire_gender.wardrobe.slider.separation": "間隔: %s",
+  "wildfire_gender.wardrobe.slider.height": "高さ: %s",
+  "wildfire_gender.wardrobe.slider.depth": "奥行き: %s",
+  "wildfire_gender.wardrobe.slider.rotation": "回転: %s度",
+
+  "wildfire_gender.appearance_settings.title": "外見設定",
+  "wildfire_gender.char_settings.title": "キャラクター設定",
+  "wildfire_gender.char_settings.physics": "胸の物理演算: %s",
+  "wildfire_gender.char_settings.override_armor_physics": "アーマーの物理演算: %s",
+  "wildfire_gender.tooltip.override_armor_physics.line1": "有効にすると、装備したアーマーによる胸の物理抑制がなくなります",
+  "wildfire_gender.tooltip.override_armor_physics.line2": "これはアーマーを非表示にするリソースパックや、軽装のパックを使用する場合に推奨されます",
+  "wildfire_gender.char_settings.hide_in_armor": "アーマー着用時に非表示: %s",
+  "wildfire_gender.tooltip.hide_in_armor": "アーマー着用時に胸のモデルを非表示にする",
+  "wildfire_gender.char_settings.hurt_sounds": "女性のダメージ音: %s",
+  "wildfire_gender.tooltip.hurt_sounds": "女性のダメージ音を有効にする",
+
+  "wildfire_gender.breast_customization.dual_physics": "デュアル物理演算: %s",
+
+  "wildfire_gender.player_list.bounce_multiplier": "バウンド倍率: %sx",
+  "wildfire_gender.player_list.breast_momentum": "胸の慣性: %s%%",
+  "wildfire_gender.player_list.female_sounds": "女性の音声: %s",
+
+  "wildfire_gender.settings.title": "Wildfireの設定メニュー",
+
+  "wildfire_gender.acknowledge.confirm": "確認",
+
+  "wildfire_gender.label.gender": "ジェンダー",
+  "wildfire_gender.label.female": "女性",
+  "wildfire_gender.label.male": "男性",
+  "wildfire_gender.label.other": "その他",
+
+  "wildfire_gender.label.enabled": "有効",
+  "wildfire_gender.label.disabled": "無効",
+  "wildfire_gender.label.yes": "はい",
+  "wildfire_gender.label.no": "いいえ",
+  "wildfire_gender.label.too_far": "遠すぎる",
+  "wildfire_gender.label.with_creator": "あなたはこのモッドの作者と同じサーバーでプレイしています！",
+
+  "wildfire_gender.slider.bounce": "バウンド強度: %sx",
+  "wildfire_gender.slider.floppy": "胸の慣性: %s%%",
+  "wildfire_gender.slider.min_bounce": "なぜ物理演算がオンなの？",
+  "wildfire_gender.slider.max_bounce": "アニメのような胸の物理演算!!!",
+  "wildfire_gender.tooltip.bounce_warning": "バウンド強度を高く設定すると、不自然な見た目になります！",
+
+  "wildfire_gender.cancer_awareness.title": "乳がん啓発月間です！",
+  "wildfire_gender.cancer_awareness.description": "クリックして §dSusan G. Komen財団§f に寄付しよう！",
+  "wildfire_gender.coming_soon": "近日公開",
+
+  "wildfire_gender.config.client": "クライアント設定: この設定はクライアントのみ適用されます",
+  "wildfire_gender.config.client.disable_rendering": "このモッドに関連するすべてのレンダリングを無効化する（ジェンダーメニューを含む）",
+  "wildfire_gender.config.client.disable_sound_replacement": "プレイヤーの音声を女性ボイスに置き換える機能を無効化する"
+}
