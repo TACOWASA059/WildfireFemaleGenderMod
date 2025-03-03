@@ -10,7 +10,7 @@ It works on client-side without issues but if you wish to add syncing support th
 G - Open Wildfire's Gender Menu
 
 ## Modifications
-- 2025-03-03: (TACOWASA059) Change the range of settings available in config. [ver3.0.2]
+- 2025-03-03: (TACOWASA059) Change the range of settings available in config. Addition of Japanese ```ja-jp.json```. [ver3.0.2] 
 ![image](https://github.com/user-attachments/assets/8c96502d-b3e4-4d1d-b5e7-80208c3edd21)
 
 ## License
