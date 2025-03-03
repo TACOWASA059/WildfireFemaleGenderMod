@@ -11,7 +11,8 @@ G - Open Wildfire's Gender Menu
 
 ## Modifications
 - 2025-03-03: (TACOWASA059) Change the range of settings available in config. Addition of Japanese ```ja-jp.json```. [ver3.0.2] 
-![image](https://github.com/user-attachments/assets/8c96502d-b3e4-4d1d-b5e7-80208c3edd21)
+![image](https://github.com/user-attachments/assets/221c9a78-bfa1-44ab-a3b8-8be50a9682c4)
+
 
 ## License
 
