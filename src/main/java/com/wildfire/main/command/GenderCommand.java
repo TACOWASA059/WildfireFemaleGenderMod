@@ -44,6 +44,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = WildfireGender.MODID)
 public class GenderCommand {
@@ -86,6 +88,45 @@ public class GenderCommand {
         return key.equalsIgnoreCase("gender");
     }
 
+    public static Map<String, Object> getGenderAttributes(GenderPlayer genderPlayer) {
+        if (genderPlayer == null) return new HashMap<>();
+
+        Map<String, Object> attributes = new HashMap<>();
+
+        // Float 型のデータ
+        attributes.put("bust_size", genderPlayer.getBustSize());
+        attributes.put("breasts_dx", genderPlayer.getBreasts().getDx());
+        attributes.put("breasts_dy", genderPlayer.getBreasts().getDy());
+        attributes.put("breasts_xOffset", genderPlayer.getBreasts().getXOffset());
+        attributes.put("breasts_yOffset", genderPlayer.getBreasts().getYOffset());
+        attributes.put("breasts_zOffset", genderPlayer.getBreasts().getZOffset());
+        attributes.put("breasts_cleavage", genderPlayer.getBreasts().getCleavage());
+
+        attributes.put("hips_size", genderPlayer.getHipSize());
+        attributes.put("hips_dx", genderPlayer.getHips().getDx());
+        attributes.put("hips_dy", genderPlayer.getHips().getDy());
+        attributes.put("hips_xOffset", genderPlayer.getHips().getXOffset());
+        attributes.put("hips_yOffset", genderPlayer.getHips().getYOffset());
+        attributes.put("hips_zOffset", genderPlayer.getHips().getZOffset());
+        attributes.put("hips_cleavage", genderPlayer.getHips().getCleavage());
+
+        attributes.put("bounce_multiplier", genderPlayer.getBounceMultiplier());
+        attributes.put("floppy_multiplier", genderPlayer.getFloppiness());
+
+        // Boolean 型のデータ
+        attributes.put("breast_physics", genderPlayer.hasBreastPhysics());
+        attributes.put("hurt_sounds", genderPlayer.hasHurtSounds());
+        attributes.put("armor_physics_override", genderPlayer.getArmorPhysicsOverride());
+        attributes.put("show_in_armor", genderPlayer.showBreastsInArmor());
+        attributes.put("breasts_uniboob", genderPlayer.getBreasts().isUniboob());
+        attributes.put("hips_uniboob", genderPlayer.getHips().isUniHips());
+
+        // String 型のデータ (Gender)
+        attributes.put("gender", genderPlayer.getGender().toString());
+
+        return attributes;
+    }
+
 
     @SubscribeEvent
     public static void registerCommand(RegisterCommandsEvent event) {
@@ -96,7 +137,7 @@ public class GenderCommand {
                     .then(Commands.argument("targets", EntityArgument.players())
                         .then(Commands.argument("key", StringArgumentType.word())
                                 .suggests(ALL_KEY_SUGGESTIONS)
-                                    .then(Commands.argument("value", StringArgumentType.word()) // すべて String で受け取る
+                                    .then(Commands.argument("value", StringArgumentType.word())
                                             .suggests((context, builder) -> {
                                                 String key = StringArgumentType.getString(context, "key");
                                                 if (isBooleanKey(key)) {
@@ -136,6 +177,29 @@ public class GenderCommand {
                                             })
                                     )
                             )
+                            .executes(context -> {
+                                Collection<ServerPlayer> targetPlayers = EntityArgument.getPlayers(context, "targets");
+
+                                for (ServerPlayer player : targetPlayers) {
+                                    GenderPlayer genderPlayer = WildfireGender.getOrAddPlayerById(player.getUUID());
+                                    if (genderPlayer == null) {
+                                        context.getSource().sendFailure(Component.literal(
+                                                ChatFormatting.RED + "Failed to retrieve gender data for " + player.getName().getString()));
+                                        continue;
+                                    }
+
+                                    Map<String, Object> attributes = getGenderAttributes(genderPlayer);
+
+                                    StringBuilder message = new StringBuilder(ChatFormatting.AQUA + player.getName().getString() + ChatFormatting.WHITE +"'s Gender Attributes:");
+                                    for (Map.Entry<String, Object> entry : attributes.entrySet()) {
+                                        message.append("\n").append(ChatFormatting.GREEN).append(entry.getKey()).append(": ")
+                                                .append(ChatFormatting.AQUA).append(entry.getValue());
+                                    }
+                                    context.getSource().sendSystemMessage(Component.literal(message.toString()));
+                                    return Command.SINGLE_SUCCESS;
+                                }
+                                return Command.SINGLE_SUCCESS;
+                            })
                     )
                     .then(Commands.argument("targetPlayer", EntityArgument.players())
                             .then(Commands.literal("copyFrom")
