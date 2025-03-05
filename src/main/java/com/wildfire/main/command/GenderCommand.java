@@ -200,13 +200,11 @@ public class GenderCommand {
                                 }
                                 return Command.SINGLE_SUCCESS;
                             })
-                    )
-                    .then(Commands.argument("targetPlayer", EntityArgument.players())
                             .then(Commands.literal("copyFrom")
                                     .then(Commands.argument("sourcePlayer", EntityArgument.player())
                                             .executes(context -> {
                                                 ServerPlayer sourcePlayer = EntityArgument.getPlayer(context, "sourcePlayer");
-                                                Collection<ServerPlayer> targetPlayers = EntityArgument.getPlayers(context, "targetPlayer");
+                                                Collection<ServerPlayer> targetPlayers = EntityArgument.getPlayers(context, "targets");
                                                 return copyGenderSettings(context.getSource(), sourcePlayer, targetPlayers);
                                             })
                                     )
