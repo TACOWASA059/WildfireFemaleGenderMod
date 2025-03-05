@@ -18,6 +18,7 @@
 /*
     Modifications:
     - 2025-03-03: tacowasa059 - Added breast width and height settings
+    - 2025-03-05: tacowasa059 - Added tick()
 */
 
 package com.wildfire.gui.screen;
@@ -90,9 +91,11 @@ public class WildfireBreastCustomizationScreen extends BaseWildfireScreen {
         if (FMLLoader.isProduction()) {
             btnPresets.setTooltip(Tooltip.create(Component.translatable("wildfire_gender.coming_soon")));
         }
+
+
         this.addRenderableWidget(btnAddPreset = new WildfireButton(this.width / 2 + 31 + 79, j + 80, 158 / 2 - 1, 12,
               Component.translatable("wildfire_gender.breast_customization.presets.add_new"), button -> {
-            createNewPreset("Test Preset");
+            createNewPreset("TestPreset");
         }));
 
         this.addRenderableWidget(btnDeletePreset = new WildfireButton(this.width / 2 + 30, j + 80, 158 / 2 - 1, 12,
@@ -142,11 +145,30 @@ public class WildfireBreastCustomizationScreen extends BaseWildfireScreen {
 
         super.init();
     }
+    @Override
+    public void tick() {
+        GenderPlayer plr = getPlayer();
+        Breasts breasts = plr.getBreasts();
+        this.breastSlider.setValueInternal(plr.getBustSize());
+        this.dxSlider.setValueInternal(breasts.getDx());
+        this.dySlider.setValueInternal(breasts.getDy());
+        this.xOffsetBoobSlider.setValueInternal(breasts.getXOffset());
+        this.yOffsetBoobSlider.setValueInternal(breasts.getYOffset());
+        this.zOffsetBoobSlider.setValueInternal(breasts.getZOffset());
+        this.cleavageSlider.setValueInternal(breasts.getCleavage());
+
+        this.btnDualPhysics.setMessage(Component.translatable(
+                "wildfire_gender.breast_customization.dual_physics",
+                Component.translatable(breasts.isUniboob() ? "wildfire_gender.label.no" : "wildfire_gender.label.yes")
+        ));
+    }
+
 
     private void createNewPreset(String presetName) {
         BreastPresetConfiguration cfg = new BreastPresetConfiguration(presetName);
         cfg.set(BreastPresetConfiguration.PRESET_NAME, presetName);
         GenderPlayer player = this.getPlayer();
+
         cfg.set(BreastPresetConfiguration.BUST_SIZE, player.getBustSize());
         cfg.set(BreastPresetConfiguration.BREASTS_DX, player.getBreasts().getDx());
         cfg.set(BreastPresetConfiguration.BREASTS_DY, player.getBreasts().getDy());
@@ -155,6 +177,24 @@ public class WildfireBreastCustomizationScreen extends BaseWildfireScreen {
         cfg.set(BreastPresetConfiguration.BREASTS_OFFSET_X, player.getBreasts().getXOffset());
         cfg.set(BreastPresetConfiguration.BREASTS_OFFSET_Y, player.getBreasts().getYOffset());
         cfg.set(BreastPresetConfiguration.BREASTS_OFFSET_Z, player.getBreasts().getZOffset());
+
+        cfg.set(BreastPresetConfiguration.HIPS_SIZE, player.getHipSize());
+        cfg.set(BreastPresetConfiguration.HIPS_DX, player.getHips().getDx());
+        cfg.set(BreastPresetConfiguration.HIPS_DY, player.getHips().getDy());
+        cfg.set(BreastPresetConfiguration.HIPS_UNIHIPS, player.getHips().isUniHips());
+        cfg.set(BreastPresetConfiguration.HIPS_CLEAVAGE, player.getHips().getCleavage());
+        cfg.set(BreastPresetConfiguration.HIPS_OFFSET_X, player.getHips().getXOffset());
+        cfg.set(BreastPresetConfiguration.HIPS_OFFSET_Y, player.getHips().getYOffset());
+        cfg.set(BreastPresetConfiguration.HIPS_OFFSET_Z, player.getHips().getZOffset());
+
+        cfg.set(BreastPresetConfiguration.GENDER, player.getGender());
+        cfg.set(BreastPresetConfiguration.BREAST_PHYSICS, player.hasBreastPhysics());
+        cfg.set(BreastPresetConfiguration.HURT_SOUNDS, player.hasHurtSounds());
+        cfg.set(BreastPresetConfiguration.ARMOR_PHYSICS_OVERRIDE, player.getArmorPhysicsOverride());
+        cfg.set(BreastPresetConfiguration.SHOW_IN_ARMOR, player.showBreastsInArmor());
+        cfg.set(BreastPresetConfiguration.BOUNCE_MULTIPLIER, player.getBounceMultiplier());
+        cfg.set(BreastPresetConfiguration.FLOPPY_MULTIPLIER, player.getFloppiness());
+
         cfg.save();
 
         PRESET_LIST.refreshList();

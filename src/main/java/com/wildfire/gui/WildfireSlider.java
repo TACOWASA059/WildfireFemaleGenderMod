@@ -15,7 +15,10 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-
+/*
+    Modifications:
+    - 2025-03-05: tacowasa059 - changed setValueInternal() to public method
+*/
 package com.wildfire.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -121,7 +124,7 @@ public class WildfireSlider extends AbstractSliderButton {
 		return this.value * (maxValue - minValue) + minValue;
 	}
 
-	private void setValueInternal(double value) {
+	public void setValueInternal(double value) {
 		this.value = Mth.clamp((value - this.minValue) / (this.maxValue - this.minValue), 0, 1);
 		this.lastValue = (float) value;
 		updateMessage();

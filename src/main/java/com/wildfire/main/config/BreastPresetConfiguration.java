@@ -51,6 +51,14 @@ public class BreastPresetConfiguration extends Configuration {
     public static final BooleanConfigKey HIPS_UNIHIPS = ClientConfiguration.HIPS_UNIHIPS;
     public static final FloatConfigKey HIPS_CLEAVAGE = ClientConfiguration.HIPS_CLEAVAGE;
 
+    public static final GenderConfigKey GENDER = ClientConfiguration.GENDER;
+    public static final BooleanConfigKey BREAST_PHYSICS = ClientConfiguration.BREAST_PHYSICS;
+    public static final BooleanConfigKey HURT_SOUNDS = ClientConfiguration.HURT_SOUNDS;
+    public static final BooleanConfigKey ARMOR_PHYSICS_OVERRIDE = ClientConfiguration.ARMOR_PHYSICS_OVERRIDE;
+    public static final BooleanConfigKey SHOW_IN_ARMOR = ClientConfiguration.SHOW_IN_ARMOR;
+    public static final FloatConfigKey BOUNCE_MULTIPLIER = ClientConfiguration.BOUNCE_MULTIPLIER;
+    public static final FloatConfigKey FLOPPY_MULTIPLIER = ClientConfiguration.FLOPPY_MULTIPLIER;
+
     public BreastPresetConfiguration(String cfgName) {
         super("WildfireGender/presets", cfgName);
     }

@@ -12,6 +12,10 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+/*
+    Modifications:
+    - 2025-03-05: tacowasa059 - Added other settings BreastPresetListEntry()
+ */
 
 package com.wildfire.gui;
 
@@ -111,10 +115,21 @@ public class WildfireBreastPresetList extends AbstractSelectionList<BreastPreset
                 GenderPlayer player = parent.getPlayer();
                 player.updateBustSize(data);
                 player.getBreasts().copyFrom(data);
+                player.updateHipSize(data);
+                player.getHips().copyFrom(data);
+
+                player.updateGender(data.get(BreastPresetConfiguration.GENDER));
+                player.updateBreastPhysics(data.get(BreastPresetConfiguration.BREAST_PHYSICS));
+                player.updateShowBreastsInArmor(data.get(BreastPresetConfiguration.SHOW_IN_ARMOR));
+                player.updateFloppiness(data.get(BreastPresetConfiguration.FLOPPY_MULTIPLIER));
+                player.updateBounceMultiplier(data.get(BreastPresetConfiguration.BOUNCE_MULTIPLIER));
+                player.updateHurtSounds(data.get(BreastPresetConfiguration.ARMOR_PHYSICS_OVERRIDE));
+                player.updateArmorPhysicsOverride(data.get(BreastPresetConfiguration.ARMOR_PHYSICS_OVERRIDE));
+
                 //TODO: I think we may need to save the gender info after loading and then update the settings to ensure it renders properly?
                 // the rendering properly might function fine as is as the tab is still the preset tab so ability to have breasts changing
                 // shouldn't necessarily matter?
-                //GenderPlayer.saveGenderInfo(player);
+                GenderPlayer.saveGenderInfo(player);
                 //parent.updatePresetTab();
             });
         }

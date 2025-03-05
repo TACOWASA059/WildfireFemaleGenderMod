@@ -18,7 +18,8 @@
     ---------------------------------------------------------------------------
     This file is part of the Wildfire's Female Gender Mod.
     Changes from the original version:
-    - addition of hip settings (2025-03-04)
+    - 2025-03-04 tacowasa059 - addition of hip settings
+    - 2025-03-05: tacowasa059 - Added tick()
 */
 
 package com.wildfire.gui.screen;
@@ -27,6 +28,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.wildfire.gui.WildfireBreastPresetList;
 import com.wildfire.gui.WildfireButton;
 import com.wildfire.gui.WildfireSlider;
+import com.wildfire.main.playerData.Breasts;
 import com.wildfire.main.playerData.GenderPlayer;
 import com.wildfire.main.config.BreastPresetConfiguration;
 import com.wildfire.main.config.ClientConfiguration;
@@ -93,7 +95,7 @@ public class WildfireHipCustomizationScreen  extends BaseWildfireScreen {
         }
         this.addRenderableWidget(btnAddPreset = new WildfireButton(this.width / 2 + 31 + 79, j + 80, 158 / 2 - 1, 12,
                 Component.translatable("wildfire_gender.breast_customization.presets.add_new"), button -> {
-            createNewPreset("Test Preset");
+            createNewPreset("TestPreset");
         }));
 
         this.addRenderableWidget(btnDeletePreset = new WildfireButton(this.width / 2 + 30, j + 80, 158 / 2 - 1, 12,
@@ -144,10 +146,38 @@ public class WildfireHipCustomizationScreen  extends BaseWildfireScreen {
         super.init();
     }
 
+    @Override
+    public void tick() {
+        GenderPlayer plr = getPlayer();
+        Hips hips = plr.getHips();
+        this.breastSlider.setValueInternal(plr.getHipSize());
+        this.dxSlider.setValueInternal(hips.getDx());
+        this.dySlider.setValueInternal(hips.getDy());
+        this.xOffsetBoobSlider.setValueInternal(hips.getXOffset());
+        this.yOffsetBoobSlider.setValueInternal(hips.getYOffset());
+        this.zOffsetBoobSlider.setValueInternal(hips.getZOffset());
+        this.cleavageSlider.setValueInternal(hips.getCleavage());
+
+        this.btnDualPhysics.setMessage(Component.translatable(
+                "wildfire_gender.breast_customization.hip_dual_physics",
+                Component.translatable(hips.isUniHips() ? "wildfire_gender.label.no" : "wildfire_gender.label.yes")
+        ));
+    }
+
     private void createNewPreset(String presetName) {
         BreastPresetConfiguration cfg = new BreastPresetConfiguration(presetName);
         cfg.set(BreastPresetConfiguration.PRESET_NAME, presetName);
         GenderPlayer player = this.getPlayer();
+
+        cfg.set(BreastPresetConfiguration.BUST_SIZE, player.getBustSize());
+        cfg.set(BreastPresetConfiguration.BREASTS_DX, player.getBreasts().getDx());
+        cfg.set(BreastPresetConfiguration.BREASTS_DY, player.getBreasts().getDy());
+        cfg.set(BreastPresetConfiguration.BREASTS_UNIBOOB, player.getBreasts().isUniboob());
+        cfg.set(BreastPresetConfiguration.BREASTS_CLEAVAGE, player.getBreasts().getCleavage());
+        cfg.set(BreastPresetConfiguration.BREASTS_OFFSET_X, player.getBreasts().getXOffset());
+        cfg.set(BreastPresetConfiguration.BREASTS_OFFSET_Y, player.getBreasts().getYOffset());
+        cfg.set(BreastPresetConfiguration.BREASTS_OFFSET_Z, player.getBreasts().getZOffset());
+
         cfg.set(BreastPresetConfiguration.HIPS_SIZE, player.getHipSize());
         cfg.set(BreastPresetConfiguration.HIPS_DX, player.getHips().getDx());
         cfg.set(BreastPresetConfiguration.HIPS_DY, player.getHips().getDy());
@@ -156,6 +186,15 @@ public class WildfireHipCustomizationScreen  extends BaseWildfireScreen {
         cfg.set(BreastPresetConfiguration.HIPS_OFFSET_X, player.getHips().getXOffset());
         cfg.set(BreastPresetConfiguration.HIPS_OFFSET_Y, player.getHips().getYOffset());
         cfg.set(BreastPresetConfiguration.HIPS_OFFSET_Z, player.getHips().getZOffset());
+
+        cfg.set(BreastPresetConfiguration.GENDER, player.getGender());
+        cfg.set(BreastPresetConfiguration.BREAST_PHYSICS, player.hasBreastPhysics());
+        cfg.set(BreastPresetConfiguration.HURT_SOUNDS, player.hasHurtSounds());
+        cfg.set(BreastPresetConfiguration.ARMOR_PHYSICS_OVERRIDE, player.getArmorPhysicsOverride());
+        cfg.set(BreastPresetConfiguration.SHOW_IN_ARMOR, player.showBreastsInArmor());
+        cfg.set(BreastPresetConfiguration.BOUNCE_MULTIPLIER, player.getBounceMultiplier());
+        cfg.set(BreastPresetConfiguration.FLOPPY_MULTIPLIER, player.getFloppiness());
+
         cfg.save();
 
         PRESET_LIST.refreshList();

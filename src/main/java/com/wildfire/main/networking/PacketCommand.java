@@ -19,7 +19,7 @@
     ---------------------------------------------------------------------------
     This file is part of the Wildfire's Female Gender Mod.
     Changes from the original version:
-    - added command ( 2025-03-04)
+    - added command packet( 2025-03-04)
 */
 
 package com.wildfire.main.networking;

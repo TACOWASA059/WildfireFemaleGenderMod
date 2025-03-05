@@ -15,7 +15,11 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+/*
+    modification:
 
+    2025-03-05: tacowasa059 enableArmorPhysicsOverride ? ENABLED : DISABLED
+ */
 package com.wildfire.gui.screen;
 
 import com.wildfire.gui.WildfireSlider;
@@ -85,7 +89,7 @@ public class WildfireCharacterSettingsScreen extends BaseWildfireScreen {
               Component.translatable("wildfire_gender.char_settings.override_armor_physics", aPlr.getArmorPhysicsOverride() ? ENABLED : DISABLED), button -> {
             boolean enableArmorPhysicsOverride = !aPlr.getArmorPhysicsOverride();
             if (aPlr.updateArmorPhysicsOverride(enableArmorPhysicsOverride)) {
-                button.setMessage(Component.translatable("wildfire_gender.char_settings.override_armor_physics", enableArmorPhysicsOverride ? DISABLED : ENABLED));
+                button.setMessage(Component.translatable("wildfire_gender.char_settings.override_armor_physics", enableArmorPhysicsOverride ? ENABLED : DISABLED));
                 GenderPlayer.saveGenderInfo(aPlr);
             }
         }, Tooltip.create(Component.translatable("wildfire_gender.tooltip.override_armor_physics.line1")
