@@ -25,7 +25,7 @@ import com.wildfire.main.config.ClientConfiguration;
 import java.util.UUID;
 
 import com.wildfire.gui.WildfireButton;
-import com.wildfire.main.GenderPlayer;
+import com.wildfire.main.playerData.GenderPlayer;
 import javax.annotation.Nonnull;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

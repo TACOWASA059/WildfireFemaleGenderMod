@@ -11,11 +11,14 @@
     Lesser General Public License for more details.
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+    modification:
+    2025-03-04: tacowasa059 - added setClient method and PacketCommand
 */
 
 package com.wildfire.main.networking;
 
-import com.wildfire.main.GenderPlayer;
+import com.wildfire.main.playerData.GenderPlayer;
 import com.wildfire.main.WildfireGender;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -39,6 +42,7 @@ public class WildfireSync {
     public static void setup(FMLCommonSetupEvent event) {
         NETWORK.registerMessage(1, PacketSync.class, PacketSync::encode, PacketSync::new, PacketSync::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         NETWORK.registerMessage(2, PacketSendGenderInfo.class, PacketSendGenderInfo::encode, PacketSendGenderInfo::new, PacketSendGenderInfo::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        NETWORK.registerMessage(3,  PacketCommand.class, PacketCommand::encode, PacketCommand::new, PacketCommand::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     /**
@@ -66,6 +70,17 @@ public class WildfireSync {
     }
 
     /**
+     * set client configuration from server
+     * @param sendTo The {@link ServerPlayer player} to send the sync to
+     * @param toSend The {@link GenderPlayer configuration} for the player being synced (sendTo.UUID == toSend.UUID)
+     */
+    public static void setClient(ServerPlayer sendTo, GenderPlayer toSend){
+        if(!(sendTo instanceof FakePlayer)){
+            sendPacketToClient(sendTo, new PacketCommand(toSend));
+        }
+    }
+
+    /**
      * Send the client player's configuration to the server for syncing to other players
      *
      * @param plr The {@link GenderPlayer configuration} for the client player
@@ -77,7 +92,7 @@ public class WildfireSync {
         }
     }
 
-    private static void sendPacketToClient(ServerPlayer sendTo, PacketSync packet) {
+    private static void sendPacketToClient(ServerPlayer sendTo, PacketGenderInfo packet) {
         if (!(sendTo instanceof FakePlayer)) {
             NETWORK.send(PacketDistributor.PLAYER.with(() -> sendTo), packet);
         }

@@ -29,6 +29,8 @@ import java.util.Map;
 
 import java.util.UUID;
 import javax.annotation.Nullable;
+
+import com.wildfire.main.playerData.GenderPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -44,7 +46,7 @@ import org.slf4j.Logger;
 @Mod(WildfireGender.MODID)
 public class WildfireGender {
 
-	public static final String VERSION = "3.0.2";
+	public static final String VERSION = "3.0.4";
   	public static final String MODID = "wildfire_gender";
 	public static final Logger logger = LogUtils.getLogger();
 

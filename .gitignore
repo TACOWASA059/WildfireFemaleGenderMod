@@ -37,3 +37,5 @@ forge*changelog.txt
 .DS_Store
 .AppleDouble
 .LSOverride
+
+runGameTests/

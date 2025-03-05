@@ -16,8 +16,8 @@
 package com.wildfire.gui;
 
 import com.wildfire.gui.WildfireBreastPresetList.BreastPresetListEntry;
-import com.wildfire.gui.screen.WildfireBreastCustomizationScreen;
-import com.wildfire.main.GenderPlayer;
+import com.wildfire.gui.screen.BaseWildfireScreen;
+import com.wildfire.main.playerData.GenderPlayer;
 import com.wildfire.main.WildfireGender;
 import com.wildfire.main.config.BreastPresetConfiguration;
 import javax.annotation.Nonnull;
@@ -37,11 +37,11 @@ public class WildfireBreastPresetList extends AbstractSelectionList<BreastPreset
     private static final ResourceLocation TXTR_SYNC = WildfireGender.rl("textures/sync.png");
     private static final ResourceLocation TXTR_UNKNOWN = WildfireGender.rl("textures/unknown.png");
     private static final ResourceLocation TXTR_CACHED = WildfireGender.rl("textures/cached.png");
-    private final WildfireBreastCustomizationScreen parent;
+    private final BaseWildfireScreen parent;
     private final int listWidth;
     private boolean hasPresets;
 
-    public WildfireBreastPresetList(WildfireBreastCustomizationScreen parent, int listWidth, int top, int bottom) {
+    public WildfireBreastPresetList(BaseWildfireScreen parent, int listWidth, int top, int bottom) {
         super(Minecraft.getInstance(), 156, parent.height, top, bottom, 32);
         setRenderHeader(false, 0);
         setRenderBackground(false);

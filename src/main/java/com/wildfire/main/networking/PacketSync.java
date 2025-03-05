@@ -18,7 +18,7 @@
 
 package com.wildfire.main.networking;
 
-import com.wildfire.main.GenderPlayer;
+import com.wildfire.main.playerData.GenderPlayer;
 import com.wildfire.main.WildfireGender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -42,10 +42,7 @@ public class PacketSync extends PacketGenderInfo {
                 GenderPlayer plr = WildfireGender.getOrAddPlayerById(packet.uuid);
                 packet.updatePlayerFromPacket(plr);
                 plr.syncStatus = GenderPlayer.SyncStatus.SYNCED;
-                //WildfireGender.logger.debug("Received player data {}", plr.uuid);
-            }/* else {
-                WildfireGender.logger.debug("Ignoring packet, this is yourself.");
-            }*/
+            }
         });
         context.get().setPacketHandled(true);
     }

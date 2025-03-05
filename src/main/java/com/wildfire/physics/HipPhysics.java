@@ -1,6 +1,7 @@
 /*
     Wildfire's Female Gender Mod is a female gender mod created for Minecraft.
     Copyright (C) 2023 WildfireRomeo
+    Additional modifications (C) 2025 tacowasa_059
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -12,15 +13,19 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Lesser General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Lesser General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
+    ---------------------------------------------------------------------------
+    This file is part of the Wildfire's Female Gender Mod.
+    Changes from the original version:
+    - added hip physics ( 2025-03-04)
+*/
 package com.wildfire.physics;
 
 import com.wildfire.api.IGenderArmor;
-import com.wildfire.main.playerData.GenderPlayer;
 import com.wildfire.main.WildfireHelper;
+import com.wildfire.main.playerData.GenderPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.animal.Pig;
@@ -31,50 +36,53 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.phys.Vec3;
 
-public class BreastPhysics {
+public class HipPhysics {
 
-	private float bounceVel = 0, targetBounceY = 0, velocity = 0, wfg_femaleBreast, wfg_preBounce;
+	private float bounceVel = 0, targetBounceY = 0, velocity = 0, wfg_femaleHip, wfg_preBounce;
 	private float bounceRotVel = 0, targetRotVel = 0, rotVelocity = 0, wfg_bounceRotation, wfg_preBounceRotation;
-	private float bounceVelX = 0, targetBounceX = 0, velocityX = 0, wfg_femaleBreastX, wfg_preBounceX;
+	private float bounceVelX = 0, targetBounceX = 0, velocityX = 0, wfg_femaleHipX, wfg_preBounceX;
 
 	private boolean justSneaking = false, alreadySleeping = false;
 
-	private float breastSize = 0, preBreastSize = 0;
+	private float hipSize = 0, preHipSize = 0;
 
 	private Vec3 prePos;
 	private final GenderPlayer genderPlayer;
-	public BreastPhysics(GenderPlayer genderPlayer) {
+
+	private final boolean isLeft;
+	public HipPhysics(GenderPlayer genderPlayer, boolean isLeft) {
 		this.genderPlayer = genderPlayer;
+		this.isLeft = isLeft;
 	}
 
 	private int randomB = 1;
 	private boolean alreadyFalling = false;
 	public void update(Player plr, IGenderArmor armor) {
-		this.wfg_preBounce = this.wfg_femaleBreast;
-		this.wfg_preBounceX = this.wfg_femaleBreastX;
+		this.wfg_preBounce = this.wfg_femaleHip;
+		this.wfg_preBounceX = this.wfg_femaleHipX;
 		this.wfg_preBounceRotation = this.wfg_bounceRotation;
-		this.preBreastSize = this.breastSize;
+		this.preHipSize = this.hipSize;
 
 		if(this.prePos == null) {
 			this.prePos = plr.position();
 			return;
 		}
 
-		float breastWeight = genderPlayer.getBustSize() * 1.25f;
-		float targetBreastSize = genderPlayer.getBustSize();
+		float hipWeight = genderPlayer.getHipSize() * 1.25f;
+		float targetHipSize = genderPlayer.getHipSize();
 
 		if (!genderPlayer.getGender().canHaveBreasts()) {
-			targetBreastSize = 0;
+			targetHipSize = 0;
 		} else if (!genderPlayer.getArmorPhysicsOverride()) { //skip resistance if physics is overridden
 			float tightness = Mth.clamp(armor.tightness(), 0, 1);
 			//Scale breast size by how tight the armor is, clamping at a max adjustment of shrinking by 0.15
-			targetBreastSize *= 1 - 0.15F * tightness;
+			targetHipSize *= 1 - 0.15F * tightness;
 		}
 
-		if(breastSize < targetBreastSize) {
-			breastSize += Math.abs(breastSize - targetBreastSize) / 2f;
+		if(hipSize < targetHipSize) {
+			hipSize += Math.abs(hipSize - targetHipSize) / 2f;
 		} else {
-			breastSize -= Math.abs(breastSize - targetBreastSize) / 2f;
+			hipSize -= Math.abs(hipSize - targetHipSize) / 2f;
 		}
 
 
@@ -82,14 +90,14 @@ public class BreastPhysics {
 		this.prePos = plr.position();
 		//WildfireGender.logger.debug("Motion: {}", motion);
 
-		float bounceIntensity = (targetBreastSize * 3f) * genderPlayer.getBounceMultiplier();
+		float bounceIntensity = (targetHipSize * 3f) * genderPlayer.getBounceMultiplier();
 		if (!genderPlayer.getArmorPhysicsOverride()) { //skip resistance if physics is overridden
 			float resistance = Mth.clamp(armor.physicsResistance(), 0, 1);
 			//Adjust bounce intensity by physics resistance of the worn armor
 			bounceIntensity *= 1 - resistance;
 		}
 
-		if(!genderPlayer.getBreasts().isUniboob()) {
+		if(!genderPlayer.getHips().isUniHips()) {
 			bounceIntensity = bounceIntensity * WildfireHelper.randFloat(0.5f, 1.5f);
 		}
 		if(plr.fallDistance > 0 && !alreadyFalling) {
@@ -100,7 +108,7 @@ public class BreastPhysics {
 
 
 		this.targetBounceY = (float) motion.y * bounceIntensity;
-		this.targetBounceY += breastWeight;
+		this.targetBounceY += hipWeight;
 		//float horizVel = (float) Math.sqrt(Math.pow(motion.x, 2) + Math.pow(motion.z, 2)) * (bounceIntensity);
 		//float horizLocal = -horizVel * ((plr.getRotationYawHead()-plr.renderYawOffset)<0?-1:1);
 		this.targetRotVel = -((plr.yBodyRot - plr.yBodyRotO) / 15f) * bounceIntensity;
@@ -114,6 +122,13 @@ public class BreastPhysics {
 		}
 
 		this.targetBounceY += Mth.cos(plr.walkAnimation.position() * 0.6662F + (float)Math.PI) * 0.5F * plr.walkAnimation.speed() * 0.5F / f;
+
+		float walkPhase = plr.walkAnimation.position() * 0.6662F;
+		if(!isLeft) walkPhase += Math.PI;
+		float stepEffect = Mth.sin(walkPhase) * plr.walkAnimation.speed();
+
+		this.targetBounceY += stepEffect / f;
+
 		//WildfireGender.logger.debug("Rotation yaw: {}", plr.rotationYaw);
 
 		this.targetRotVel += (float) motion.y * bounceIntensity * randomB;
@@ -179,11 +194,6 @@ public class BreastPhysics {
 			this.targetBounceY = bounceIntensity;
 			this.alreadySleeping = false;
 		}
-		/*if(plr.getPose() == EntityPose.SWIMMING) {
-			//WildfireGender.logger.debug(1 - plr.getRotationVec(tickDelta).getY());
-			rotationMultiplier = 1 - (float) plr.getRotationVec(tickDelta).getY();
-		}
-		*/
 
 
 		float percent =  genderPlayer.getFloppiness();
@@ -218,26 +228,26 @@ public class BreastPhysics {
 		this.bounceRotVel += this.rotVelocity * percent;
 
 		this.wfg_bounceRotation = this.bounceRotVel;
-		this.wfg_femaleBreastX = this.bounceVelX;
-		this.wfg_femaleBreast = this.bounceVel;
+		this.wfg_femaleHipX = this.bounceVelX;
+		this.wfg_femaleHip = this.bounceVel;
 	}
 
-	public float getBreastSize(float partialTicks) {
-		return Mth.lerp(partialTicks, preBreastSize, breastSize);
+	public float getHipSize(float partialTicks) {
+		return Mth.lerp(partialTicks, preHipSize, hipSize);
 	}
 
 	public float getPreBounceY() {
 		return this.wfg_preBounce;
 	}
 	public float getBounceY() {
-		return this.wfg_femaleBreast;
+		return this.wfg_femaleHip;
 	}
 
 	public float getPreBounceX() {
 		return this.wfg_preBounceX;
 	}
 	public float getBounceX() {
-		return this.wfg_femaleBreastX;
+		return this.wfg_femaleHipX;
 	}
 
 	public float getBounceRotation() {

@@ -14,6 +14,9 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+	Modifications:
+    - 2025-03-04: tacowasa059 - Update Hip Physics.
 */
 
 package com.wildfire.main;
@@ -22,6 +25,7 @@ import com.wildfire.api.IGenderArmor;
 import com.wildfire.gui.screen.WardrobeBrowserScreen;
 import com.wildfire.main.config.GeneralClientConfig;
 import com.wildfire.main.networking.WildfireSync;
+import com.wildfire.main.playerData.GenderPlayer;
 import com.wildfire.render.GenderLayer;
 
 import java.util.Set;
@@ -140,6 +144,8 @@ public class WildfireEventHandler {
 			IGenderArmor armor = WildfireHelper.getArmorConfig(evt.player.getItemBySlot(EquipmentSlot.CHEST));
 			aPlr.getLeftBreastPhysics().update(evt.player, armor);
 			aPlr.getRightBreastPhysics().update(evt.player, armor);
+			aPlr.getLeftHipPhysics().update(evt.player, armor);
+			aPlr.getRightHipPhysics().update(evt.player, armor);
 		}
  	}
 

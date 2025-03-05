@@ -12,6 +12,11 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+/*
+    Modifications:
+    - 2025-03-03: tacowasa059 - Added breast width and height settings
+    - 2025-03-04: tacowasa059 - Added hip settings
+*/
 
 package com.wildfire.main.config;
 
@@ -26,11 +31,25 @@ public class BreastPresetConfiguration extends Configuration {
     public static final StringConfigKey PRESET_NAME = new StringConfigKey("preset_name", "");
     public static final FloatConfigKey BUST_SIZE = ClientConfiguration.BUST_SIZE;
 
+    //added
+    public static final FloatConfigKey BREASTS_DX = ClientConfiguration.BREASTS_DX;
+    public static final FloatConfigKey BREASTS_DY = ClientConfiguration.BREASTS_DY;
+    //
+
     public static final FloatConfigKey BREASTS_OFFSET_X = ClientConfiguration.BREASTS_OFFSET_X;
     public static final FloatConfigKey BREASTS_OFFSET_Y = ClientConfiguration.BREASTS_OFFSET_Y;
     public static final FloatConfigKey BREASTS_OFFSET_Z = ClientConfiguration.BREASTS_OFFSET_Z;
     public static final BooleanConfigKey BREASTS_UNIBOOB = ClientConfiguration.BREASTS_UNIBOOB;
     public static final FloatConfigKey BREASTS_CLEAVAGE = ClientConfiguration.BREASTS_CLEAVAGE;
+
+    public static final FloatConfigKey HIPS_SIZE = ClientConfiguration.HIPS_SIZE;
+    public static final FloatConfigKey HIPS_DX = ClientConfiguration.HIPS_DX;
+    public static final FloatConfigKey HIPS_DY = ClientConfiguration.HIPS_DY;
+    public static final FloatConfigKey HIPS_OFFSET_X = ClientConfiguration.HIPS_OFFSET_X;
+    public static final FloatConfigKey HIPS_OFFSET_Y = ClientConfiguration.HIPS_OFFSET_Y;
+    public static final FloatConfigKey HIPS_OFFSET_Z = ClientConfiguration.HIPS_OFFSET_Z;
+    public static final BooleanConfigKey HIPS_UNIHIPS = ClientConfiguration.HIPS_UNIHIPS;
+    public static final FloatConfigKey HIPS_CLEAVAGE = ClientConfiguration.HIPS_CLEAVAGE;
 
     public BreastPresetConfiguration(String cfgName) {
         super("WildfireGender/presets", cfgName);

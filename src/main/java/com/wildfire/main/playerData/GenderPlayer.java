@@ -15,15 +15,24 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+/*
+    Modifications:
+    - 2025-03-03: tacowasa059 - Added breast width and height settings
+    - 2025-03-04: tacowasa059 - added hip settings
+ */
 
-package com.wildfire.main;
+package com.wildfire.main.playerData;
 
+import com.wildfire.main.WildfireGender;
+import com.wildfire.main.WildfireSounds;
 import com.wildfire.main.config.ConfigKey;
 import com.wildfire.main.config.ClientConfiguration;
 import com.wildfire.main.config.Configuration;
 import com.wildfire.physics.BreastPhysics;
 import java.util.UUID;
 import java.util.function.Consumer;
+
+import com.wildfire.physics.HipPhysics;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
@@ -34,7 +43,7 @@ public class GenderPlayer {
 	public boolean needsSync;
 	public final UUID uuid;
 	private Gender gender;
-	private float pBustSize = ClientConfiguration.BUST_SIZE.getDefault();
+
 
 	private boolean hurtSounds = ClientConfiguration.HURT_SOUNDS.getDefault();
 
@@ -49,7 +58,12 @@ public class GenderPlayer {
 
 	private final ClientConfiguration cfg;
 	private final BreastPhysics lBreastPhysics, rBreastPhysics;
+	private final HipPhysics lHipPhysics, rHipPhysics;
+
+	private float pBustSize = ClientConfiguration.BUST_SIZE.getDefault();
+	private float pHipSize = ClientConfiguration.HIPS_SIZE.getDefault();
 	private final Breasts breasts;
+	private final Hips hips;
 
 	public GenderPlayer(UUID uuid) {
 		this(uuid, ClientConfiguration.GENDER.getDefault());
@@ -58,7 +72,11 @@ public class GenderPlayer {
 	public GenderPlayer(UUID uuid, Gender gender) {
 		lBreastPhysics = new BreastPhysics(this);
 		rBreastPhysics = new BreastPhysics(this);
+		lHipPhysics = new HipPhysics(this, true);
+		rHipPhysics = new HipPhysics(this, false);
+
 		breasts = new Breasts();
+		hips = new Hips();
 		this.uuid = uuid;
 		this.gender = gender;
 		this.cfg = new ClientConfiguration("WildfireGender", this.uuid.toString());
@@ -66,13 +84,24 @@ public class GenderPlayer {
 		this.cfg.setDefaults(
 			ClientConfiguration.GENDER,
 			ClientConfiguration.BUST_SIZE,
+			ClientConfiguration.HIPS_SIZE,
 			ClientConfiguration.HURT_SOUNDS,
 
+			ClientConfiguration.BREASTS_DX,
+			ClientConfiguration.BREASTS_DY,
 			ClientConfiguration.BREASTS_OFFSET_X,
 			ClientConfiguration.BREASTS_OFFSET_Y,
 			ClientConfiguration.BREASTS_OFFSET_Z,
 			ClientConfiguration.BREASTS_UNIBOOB,
 			ClientConfiguration.BREASTS_CLEAVAGE,
+
+			ClientConfiguration.HIPS_DX,
+			ClientConfiguration.HIPS_DY,
+			ClientConfiguration.HIPS_OFFSET_X,
+			ClientConfiguration.HIPS_OFFSET_Y,
+			ClientConfiguration.HIPS_OFFSET_Z,
+			ClientConfiguration.HIPS_UNIHIPS,
+			ClientConfiguration.HIPS_CLEAVAGE,
 
 			ClientConfiguration.BREAST_PHYSICS,
 			ClientConfiguration.ARMOR_PHYSICS_OVERRIDE,
@@ -121,6 +150,17 @@ public class GenderPlayer {
 
 	public boolean updateBustSize(Configuration copyFrom) {
 		return updateFrom(ClientConfiguration.BUST_SIZE, copyFrom, v -> this.pBustSize = v);
+	}
+	public float getHipSize() {
+		return pHipSize;
+	}
+
+	public boolean updateHipSize(float value) {
+		return updateValue(ClientConfiguration.HIPS_SIZE, value, v -> this.pHipSize = v);
+	}
+
+	public boolean updateHipSize(Configuration copyFrom) {
+		return updateFrom(ClientConfiguration.HIPS_SIZE, copyFrom, v -> this.pHipSize = v);
 	}
 
 	public boolean hasHurtSounds() {
@@ -186,6 +226,7 @@ public class GenderPlayer {
 			ClientConfiguration config = plr.getConfig();
 			plr.updateGender(config.get(ClientConfiguration.GENDER));
 			plr.updateBustSize(config);
+			plr.updateHipSize(config);
 			plr.updateHurtSounds(config.get(ClientConfiguration.HURT_SOUNDS));
 
 			//physics
@@ -196,6 +237,8 @@ public class GenderPlayer {
 			plr.updateFloppiness(config.get(ClientConfiguration.FLOPPY_MULTIPLIER));
 
 			plr.getBreasts().copyFrom(config);
+			plr.getHips().copyFrom(config);
+
 			if (markForSync) {
 				plr.needsSync = true;
 			}
@@ -209,6 +252,7 @@ public class GenderPlayer {
 		config.set(ClientConfiguration.USERNAME, plr.uuid);
 		config.set(ClientConfiguration.GENDER, plr.getGender());
 		config.set(ClientConfiguration.BUST_SIZE, plr.getBustSize());
+		config.set(ClientConfiguration.HIPS_SIZE, plr.getHipSize());
 		config.set(ClientConfiguration.HURT_SOUNDS, plr.hasHurtSounds());
 
 		//physics
@@ -218,11 +262,21 @@ public class GenderPlayer {
 		config.set(ClientConfiguration.BOUNCE_MULTIPLIER, plr.getBounceMultiplierRaw());
 		config.set(ClientConfiguration.FLOPPY_MULTIPLIER, plr.getFloppiness());
 
+		config.set(ClientConfiguration.BREASTS_DX, plr.getBreasts().getDx());
+		config.set(ClientConfiguration.BREASTS_DY, plr.getBreasts().getDy());
 		config.set(ClientConfiguration.BREASTS_OFFSET_X, plr.getBreasts().getXOffset());
 		config.set(ClientConfiguration.BREASTS_OFFSET_Y, plr.getBreasts().getYOffset());
 		config.set(ClientConfiguration.BREASTS_OFFSET_Z, plr.getBreasts().getZOffset());
 		config.set(ClientConfiguration.BREASTS_UNIBOOB, plr.getBreasts().isUniboob());
 		config.set(ClientConfiguration.BREASTS_CLEAVAGE, plr.getBreasts().getCleavage());
+
+		config.set(ClientConfiguration.HIPS_DX, plr.getHips().getDx());
+		config.set(ClientConfiguration.HIPS_DY, plr.getHips().getDy());
+		config.set(ClientConfiguration.HIPS_OFFSET_X, plr.getHips().getXOffset());
+		config.set(ClientConfiguration.HIPS_OFFSET_Y, plr.getHips().getYOffset());
+		config.set(ClientConfiguration.HIPS_OFFSET_Z, plr.getHips().getZOffset());
+		config.set(ClientConfiguration.HIPS_UNIHIPS, plr.getHips().isUniHips());
+		config.set(ClientConfiguration.HIPS_CLEAVAGE, plr.getHips().getCleavage());
 
 		config.save();
 		plr.needsSync = true;
@@ -232,11 +286,22 @@ public class GenderPlayer {
 		return breasts;
 	}
 
+	public Hips getHips(){
+		return hips;
+	}
+
 	public BreastPhysics getLeftBreastPhysics() {
 		return lBreastPhysics;
 	}
 	public BreastPhysics getRightBreastPhysics() {
 		return rBreastPhysics;
+	}
+
+	public HipPhysics getLeftHipPhysics(){
+		return lHipPhysics;
+	}
+	public HipPhysics getRightHipPhysics(){
+		return rHipPhysics;
 	}
 
 	public enum SyncStatus {

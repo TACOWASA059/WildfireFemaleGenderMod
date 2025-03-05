@@ -18,13 +18,13 @@
 
 package com.wildfire.gui.screen;
 
-import com.wildfire.main.GenderPlayer.Gender;
+import com.wildfire.main.playerData.GenderPlayer.Gender;
 import com.wildfire.main.WildfireGender;
 import java.util.Calendar;
 import java.util.UUID;
 
 import com.wildfire.gui.WildfireButton;
-import com.wildfire.main.GenderPlayer;
+import com.wildfire.main.playerData.GenderPlayer;
 import javax.annotation.Nonnull;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -39,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class WardrobeBrowserScreen extends BaseWildfireScreen {
 
-	private static final ResourceLocation BACKGROUND_FEMALE = WildfireGender.rl("textures/gui/wardrobe_bg2.png");
+	private static final ResourceLocation BACKGROUND_FEMALE = WildfireGender.rl("textures/gui/wardrobe_bg4.png");
 	private static final ResourceLocation BACKGROUND = WildfireGender.rl("textures/gui/wardrobe_bg3.png");
 	private static final ResourceLocation TXTR_RIBBON = WildfireGender.rl("textures/bc_ribbon.png");
 
@@ -75,9 +75,14 @@ public class WardrobeBrowserScreen extends BaseWildfireScreen {
 			this.addRenderableWidget(new WildfireButton(this.width / 2 - 42, y - yOffset, 158, 20, Component.translatable("wildfire_gender.appearance_settings.title").append("..."),
 				button -> Minecraft.getInstance().setScreen(new WildfireBreastCustomizationScreen(WardrobeBrowserScreen.this, this.playerUUID))));
 			yOffset -= 20;
+
+			this.addRenderableWidget(new WildfireButton(this.width / 2 - 42, y - yOffset, 158, 20, Component.translatable("wildfire_gender.appearance_settings.title2").append("..."),
+					button -> Minecraft.getInstance().setScreen(new WildfireHipCustomizationScreen(WardrobeBrowserScreen.this, this.playerUUID))));
+			yOffset -=20;
 		}
 		this.addRenderableWidget(new WildfireButton(this.width / 2 - 42, y - yOffset, 158, 20, Component.translatable("wildfire_gender.char_settings.title").append("..."),
 			button -> Minecraft.getInstance().setScreen(new WildfireCharacterSettingsScreen(WardrobeBrowserScreen.this, this.playerUUID))));
+
 
 		this.addRenderableWidget(new WildfireButton(this.width / 2 + 111, y - 63, 9, 9, Component.literal("X"),
 			button -> Minecraft.getInstance().setScreen(parent)));

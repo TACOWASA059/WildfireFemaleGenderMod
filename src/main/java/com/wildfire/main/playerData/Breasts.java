@@ -15,18 +15,25 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-
-package com.wildfire.main;
+/*
+    Modifications:
+    - 2025-03-03: tacowasa059 - Added breast width and height settings
+*/
+package com.wildfire.main.playerData;
 
 import com.wildfire.main.config.ClientConfiguration;
 import com.wildfire.main.config.ConfigKey;
 import com.wildfire.main.config.Configuration;
+
 import java.util.function.Consumer;
 
 public class Breasts {
 
     private float xOffset = ClientConfiguration.BREASTS_OFFSET_X.getDefault(), yOffset = ClientConfiguration.BREASTS_OFFSET_Y.getDefault(), zOffset = ClientConfiguration.BREASTS_OFFSET_Z.getDefault();
     private float cleavage = ClientConfiguration.BREASTS_CLEAVAGE.getDefault();
+
+    private float dx = ClientConfiguration.BREASTS_DX.getDefault();
+    private float dy = ClientConfiguration.BREASTS_DY.getDefault();
     private boolean uniboob = ClientConfiguration.BREASTS_UNIBOOB.getDefault();
 
     private <VALUE> boolean updateValue(ConfigKey<VALUE> key, VALUE value, Consumer<VALUE> setter) {
@@ -43,6 +50,20 @@ public class Breasts {
             return false;
         }
         return updateValue(key, value, setter);
+    }
+
+    public float getDx() {
+        return dx;
+    }
+
+    public float getDy() {
+        return dy;
+    }
+    public boolean updateDx(float value){
+        return updateValue(ClientConfiguration.BREASTS_DX, value, v-> this.dx = v);
+    }
+    public boolean updateDy(float value){
+        return updateValue(ClientConfiguration.BREASTS_DY, value, v-> this.dy = v);
     }
 
     public float getXOffset() {
@@ -87,10 +108,12 @@ public class Breasts {
 
     public boolean copyFrom(Configuration copyFrom) {
         //Note: Use bitwise or to ensure all get ran
-        return updateFrom(ClientConfiguration.BREASTS_OFFSET_X, copyFrom, v -> this.xOffset = v) |
-               updateFrom(ClientConfiguration.BREASTS_OFFSET_Y, copyFrom, v -> this.yOffset = v) |
-               updateFrom(ClientConfiguration.BREASTS_OFFSET_Z, copyFrom, v -> this.zOffset = v) |
-               updateFrom(ClientConfiguration.BREASTS_CLEAVAGE, copyFrom, v -> this.cleavage = v) |
-               updateFrom(ClientConfiguration.BREASTS_UNIBOOB, copyFrom, v -> this.uniboob = v);
+        return  updateFrom(ClientConfiguration.BREASTS_DX, copyFrom, v->this.dx = v)|
+                updateFrom(ClientConfiguration.BREASTS_DY, copyFrom, v-> this.dy = v)|
+                updateFrom(ClientConfiguration.BREASTS_OFFSET_X, copyFrom, v -> this.xOffset = v) |
+                updateFrom(ClientConfiguration.BREASTS_OFFSET_Y, copyFrom, v -> this.yOffset = v) |
+                updateFrom(ClientConfiguration.BREASTS_OFFSET_Z, copyFrom, v -> this.zOffset = v) |
+                updateFrom(ClientConfiguration.BREASTS_CLEAVAGE, copyFrom, v -> this.cleavage = v) |
+                updateFrom(ClientConfiguration.BREASTS_UNIBOOB, copyFrom, v -> this.uniboob = v);
     }
 }

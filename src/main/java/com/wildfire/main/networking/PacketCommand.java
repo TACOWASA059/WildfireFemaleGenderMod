@@ -1,6 +1,7 @@
 /*
     Wildfire's Female Gender Mod is a female gender mod created for Minecraft.
     Copyright (C) 2023 WildfireRomeo
+    Additional modifications (C) 2025 tacowasa_059
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -12,44 +13,42 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Lesser General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Lesser General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+    ---------------------------------------------------------------------------
+    This file is part of the Wildfire's Female Gender Mod.
+    Changes from the original version:
+    - added command ( 2025-03-04)
 */
 
 package com.wildfire.main.networking;
 
-import com.wildfire.main.playerData.GenderPlayer;
 import com.wildfire.main.WildfireGender;
+import com.wildfire.main.playerData.GenderPlayer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class PacketSendGenderInfo extends PacketGenderInfo {
-
-    public PacketSendGenderInfo(GenderPlayer plr) {
+public class PacketCommand extends PacketGenderInfo{
+    protected PacketCommand(GenderPlayer plr) {
         super(plr);
     }
 
-    public PacketSendGenderInfo(FriendlyByteBuf buffer) {
+    public PacketCommand(FriendlyByteBuf buffer) {
         super(buffer);
     }
 
-    public static void handle(final PacketSendGenderInfo packet, Supplier<NetworkEvent.Context> context) {
+    public static void handle(final PacketCommand packet, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
-            ServerPlayer player = context.get().getSender();
-            if (player == null || !player.getUUID().equals(packet.uuid)) {
-                //Validate the uuid matches the player who sent it
-                return;
+            if (Minecraft.getInstance().player != null) {
+                GenderPlayer plr = WildfireGender.getOrAddPlayerById(packet.uuid);
+                packet.updatePlayerFromPacket(plr);
+                GenderPlayer.saveGenderInfo(plr);
             }
-            GenderPlayer plr = WildfireGender.getOrAddPlayerById(packet.uuid);
-            packet.updatePlayerFromPacket(plr);
-            //WildfireGender.logger.debug("Received data from player {}", plr.uuid);
-            //Sync changes to other online players that are tracking us
-            WildfireSync.sendToOtherClients(player, plr);
         });
-
         context.get().setPacketHandled(true);
     }
 }
