@@ -37,7 +37,7 @@ public class ClientConfiguration extends Configuration {
     public static final FloatConfigKey BREASTS_DY = new FloatConfigKey("breasts_dy", 5.0F, 2.5F, 6.0F);
     //
     public static final FloatConfigKey BREASTS_OFFSET_X = new FloatConfigKey("breasts_xOffset", 0.0F, -1, 1);
-    public static final FloatConfigKey BREASTS_OFFSET_Y = new FloatConfigKey("breasts_yOffset", 0.0F, -1, 1);
+    public static final FloatConfigKey BREASTS_OFFSET_Y = new FloatConfigKey("breasts_yOffset", 0.0F, -3, 3);
     public static final FloatConfigKey BREASTS_OFFSET_Z = new FloatConfigKey("breasts_zOffset", 0.0F, -2, 0);
     public static final BooleanConfigKey BREASTS_UNIBOOB = new BooleanConfigKey("breasts_uniboob", true);
     public static final FloatConfigKey BREASTS_CLEAVAGE = new FloatConfigKey("breasts_cleavage", 0, -0.1f, 0.1F *3);//modified
@@ -47,7 +47,7 @@ public class ClientConfiguration extends Configuration {
     public static final FloatConfigKey HIPS_DX = new FloatConfigKey("hips_dx", 4.0F, 2.5F, 6.0F);
     public static final FloatConfigKey HIPS_DY = new FloatConfigKey("hips_dy", 5.0F, 2.5F, 6.0F);
     public static final FloatConfigKey HIPS_OFFSET_X = new FloatConfigKey("hips_xOffset", 0.0F, -1, 1);
-    public static final FloatConfigKey HIPS_OFFSET_Y = new FloatConfigKey("hips_yOffset", 0.0F, -1, 2);
+    public static final FloatConfigKey HIPS_OFFSET_Y = new FloatConfigKey("hips_yOffset", 0.0F, -3, 3);
     public static final FloatConfigKey HIPS_OFFSET_Z = new FloatConfigKey("hips_zOffset", 0.0F, -2, 0);
     public static final BooleanConfigKey HIPS_UNIHIPS = new BooleanConfigKey("hips_uniboob", false);
     public static final FloatConfigKey HIPS_CLEAVAGE = new FloatConfigKey("hips_cleavage", 0, -0.1f, 0.1F *3);

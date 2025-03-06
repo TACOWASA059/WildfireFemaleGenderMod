@@ -29,6 +29,9 @@ G - Open Wildfire's Gender Menu
 | ```/gender <targets> <key> <value>```                | 指定したプレイヤーの特定のジェンダー設定を変更する | Change specific gender settings for a given player     |
 | ```/gender <targetPlayer> copyFrom <sourcePlayer>``` | あるプレイヤーの設定を他のプレイヤーにコピーする  | Copying one player's settings to another               |
 
+- 2025-03-06: (TACOWASA059) Fixed bounce physics (ver3.0.5)
+- 2025-03-07: (TACOWASA059) Changed config range(ver3.0.6)
+
 ### keys
 | key                     | type    | description      | range                  |
 |-------------------------|---------|------------------|------------------------|
@@ -36,14 +39,14 @@ G - Open Wildfire's Gender Menu
 | breasts_dx	             | float   | 	バストの横幅          | 	2.5 ～ 6.0             |
 | breasts_dy	             | float   | 	バストの高さ          | 	2.5 ～ 6.0             |
 | breasts_xOffset	        | float   | 	バストの X オフセット    | 	-1.0 ～ 1.0            |
-| breasts_yOffset	        | float   | 	バストの Y オフセット    | 	-1.0 ～ 1.0            |
+| breasts_yOffset	        | float   | 	バストの Y オフセット    | 	-3.0 ～ 3.0            |
 | breasts_zOffset	        | float   | 	バストの Z オフセット    | 	-2.0 ～ 0.0            |
 | breasts_cleavage	       | float   | 	バストの角度          | 	-0.1 ～ 0.3            |
 | hips_size	              | float   | 	ヒップサイズ          | 	0.0 ～ 3.2             |
 | hips_dx	                | float   | 	ヒップの横幅          | 	2.5 ～ 6.0             |
 | hips_dy	                | float   | 	ヒップの高さ          | 	2.5 ～ 6.0             |
 | hips_xOffset	           | float   | 	ヒップの X オフセット    | 	-1.0 ～ 1.0            |
-| hips_yOffset	           | float   | 	ヒップの Y オフセット    | 	-1.0 ～ 2.0            |
+| hips_yOffset	           | float   | 	ヒップの Y オフセット    | 	-3.0 ～ 3.0            |
 | hips_zOffset	           | float   | 	ヒップの Z オフセット    | 	-2.0 ～ 0.0            |
 | hips_cleavage	          | float   | 	ヒップの角度          | 	-0.1 ～ 0.3            |
 | bounce_multiplier	      | float   | 	揺れやすさ           | 	0.0 ～ 0.5             |
@@ -55,8 +58,6 @@ G - Open Wildfire's Gender Menu
 | breasts_uniboob	        | boolean | 	単一バスト           | 	true / false          |
 | hips_uniboob	           | boolean | 	単一ヒップ           | 	true / false          |
 | gender	                 | string  | 	プレイヤーの性別        | 	male / female / other |
-
-- 2025-03-06: (TACOWASA059) Fixed bounce physics (ver3.0.5)
 ## License
 
 Wildfire's Female Gender Mod is licensed under GNU LGPLv3, a free and open-source license. For more information, please see the [license file](https://github.com/WildfireRomeo/WildfireFemaleGenderMod/blob/forge-1.19/LICENSE).

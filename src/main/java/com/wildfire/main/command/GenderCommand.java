@@ -263,10 +263,10 @@ public class GenderCommand {
         value = switch (key) {
             case "bust_size", "hips_size" -> clamp(value, 0, 3.2f);
             case "breasts_dx", "breasts_dy", "hips_dx", "hips_dy" -> clamp(value, 2.5f, 6.0f);
-            case "breasts_xOffset", "breasts_yOffset", "hips_xOffset" -> clamp(value, -1, 1);
+            case "breasts_xOffset", "hips_xOffset" -> clamp(value, -1, 1);
             case "breasts_zOffset", "hips_zOffset" -> clamp(value, -2, 0);
             case "breasts_cleavage", "hips_cleavage" -> clamp(value, -0.1f, 0.3f);
-            case "hips_yOffset" -> clamp(value, -1, 2);
+            case "hips_yOffset", "breasts_yOffset" -> clamp(value, -3, 3);
             case "bounce_multiplier" -> clamp(value, 0, 0.5f);
             case "floppy_multiplier" -> clamp(value, 0.25f, 1f);
             default -> Float.MIN_VALUE;
