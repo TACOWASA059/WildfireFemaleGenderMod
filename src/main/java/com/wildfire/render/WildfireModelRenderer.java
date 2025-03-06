@@ -19,6 +19,7 @@
     Modifications:
     - 2025-03-03: tacowasa059 - Added breast width and height settings
     - 2025-03-04: tacowasa059 - Added Hip Renderer
+    - 2025-03-06: tacowasa059 - changed HipModel
 */
 package com.wildfire.render;
 
@@ -181,15 +182,15 @@ public class WildfireModelRenderer {
 
 			initQuads(tW, tH, texU, texV, dx, dy, dz, mirror, extra, isOuter,
 					new PositionTextureVertex(f, y, z, 0.0F, 8.0F),//0
-					new PositionTextureVertex(f, f1_2, z, 8.0F, 8.0F),//1
-					new PositionTextureVertex(x, f1_2, z, 8.0F, 0.0F),//2
+					new PositionTextureVertex(f, f1_2, z - 0.6f, 8.0F, 8.0F),//1
+					new PositionTextureVertex(x, f1_2, z -0.6f, 8.0F, 0.0F),//2
 					new PositionTextureVertex(x, y, f2, 0.0F, 0.0F),//3
 					new PositionTextureVertex(f, y, f2, 0.0F, 8.0F),//4
 					new PositionTextureVertex(f, f1_2, f2, 8.0F, 8.0F),//5
 					new PositionTextureVertex(x, f1_2, f2, 8.0F, 0.0F),//6
 					new PositionTextureVertex(x, y, z, 0.0F, 0.0F),//7
-					new PositionTextureVertex(x, f1, z, 8.0F, 0.0F),//8
-					new PositionTextureVertex(f, f1, z, 8.0F, 8.0F), //9
+					new PositionTextureVertex(x, f1, z -1, 8.0F, 0.0F),//8
+					new PositionTextureVertex(f, f1, z -1, 8.0F, 8.0F), //9
 					new PositionTextureVertex(f, f1, f2, 8.0F, 8.0F),//10
 					new PositionTextureVertex(x, f1, f2, 8.0F, 0.0F)//11
 			);

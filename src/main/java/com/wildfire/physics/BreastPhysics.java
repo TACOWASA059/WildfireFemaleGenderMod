@@ -14,6 +14,9 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+    modifications:
+    2025-03-06: tacowasa059 - added clipping for size
 */
 
 package com.wildfire.physics;
@@ -77,12 +80,15 @@ public class BreastPhysics {
 			breastSize -= Math.abs(breastSize - targetBreastSize) / 2f;
 		}
 
+		float clipped_targetBreastSize = Math.min(targetBreastSize, 0.8f);
+		float clipped_breastWeight = Math.min(breastWeight, 0.8f*1.25f);
+
 
 		Vec3 motion = plr.position().subtract(this.prePos);
 		this.prePos = plr.position();
 		//WildfireGender.logger.debug("Motion: {}", motion);
 
-		float bounceIntensity = (targetBreastSize * 3f) * genderPlayer.getBounceMultiplier();
+		float bounceIntensity = (clipped_targetBreastSize * 3f) * genderPlayer.getBounceMultiplier();
 		if (!genderPlayer.getArmorPhysicsOverride()) { //skip resistance if physics is overridden
 			float resistance = Mth.clamp(armor.physicsResistance(), 0, 1);
 			//Adjust bounce intensity by physics resistance of the worn armor
@@ -100,7 +106,7 @@ public class BreastPhysics {
 
 
 		this.targetBounceY = (float) motion.y * bounceIntensity;
-		this.targetBounceY += breastWeight;
+		this.targetBounceY += clipped_breastWeight;
 		//float horizVel = (float) Math.sqrt(Math.pow(motion.x, 2) + Math.pow(motion.z, 2)) * (bounceIntensity);
 		//float horizLocal = -horizVel * ((plr.getRotationYawHead()-plr.renderYawOffset)<0?-1:1);
 		this.targetRotVel = -((plr.yBodyRot - plr.yBodyRotO) / 15f) * bounceIntensity;
@@ -201,10 +207,14 @@ public class BreastPhysics {
 		if(bounceVel > 2.5f) {
 			targetBounceY -= distanceFromMax;
 		}
+
 		if(targetBounceY < -1.5f) targetBounceY = -1.5f;
 		if(targetBounceY > 2.5f) targetBounceY = 2.5f;
+
 		if(targetRotVel < -25f) targetRotVel = -25f;
 		if(targetRotVel > 25f) targetRotVel = 25f;
+
+
 
 		this.velocity = Mth.lerp(bounceAmount, this.velocity, (this.targetBounceY - this.bounceVel) * delta);
 		//this.preY = MathHelper.lerp(0.5f, this.preY, (this.targetBounce - this.bounceVel) * 1.25f);

@@ -20,6 +20,7 @@
     - 2025-03-03: tacowasa059 - Change the range of settings available in config.
     - 2025-03-03: tacowasa059 - Added breast width and height settings
     - 2025-03-04: tacowasa059 - Added Hip Renderer
+    - 2025-03-06: tacowasa059 - changed clipping
 */
 package com.wildfire.render;
 
@@ -445,7 +446,7 @@ public class GenderLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<A
 				matrixStack.translate(0, -0.035f * breastSize, 0); //shift down to correct position
 				rotationMultiplier = -total / 12f;
 			}
-			float totalRotation = (float) (breastSize + rotationMultiplier);
+			float totalRotation = breastSize;
 			if (!bounceEnabled) {
 				totalRotation = breastSize;
 			}
@@ -453,6 +454,7 @@ public class GenderLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<A
 				totalRotation = breastSize + 0.2F;
 			}
 			totalRotation = Math.min(totalRotation, 1); //hard limit for MAX
+			totalRotation += rotationMultiplier;
 
 			if (isChestplateOccupied) {
 				matrixStack.translate(0, 0, 0.01f);
@@ -519,7 +521,7 @@ public class GenderLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<A
 				matrixStack.translate(0, -0.035f * breastSize, 0); //shift down to correct position
 				rotationMultiplier = -total / 12f;
 			}
-			float totalRotation = breastSize + rotationMultiplier;
+			float totalRotation = breastSize;
 			if (!bounceEnabled) {
 				totalRotation = breastSize;
 			}
@@ -527,6 +529,7 @@ public class GenderLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<A
 				totalRotation = breastSize + 0.2F;
 			}
 			totalRotation = Math.min(totalRotation, 1); //hard limit for MAX
+			totalRotation += rotationMultiplier;
 
 			if (isChestplateOccupied) {
 				matrixStack.translate(0, 0, 0.01f);

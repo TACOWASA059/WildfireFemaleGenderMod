@@ -56,6 +56,7 @@ G - Open Wildfire's Gender Menu
 | hips_uniboob	           | boolean | 	単一ヒップ           | 	true / false          |
 | gender	                 | string  | 	プレイヤーの性別        | 	male / female / other |
 
+- 2025-03-06: (TACOWASA059) Fixed bounce physics (ver3.0.5)
 ## License
 
 Wildfire's Female Gender Mod is licensed under GNU LGPLv3, a free and open-source license. For more information, please see the [license file](https://github.com/WildfireRomeo/WildfireFemaleGenderMod/blob/forge-1.19/LICENSE).

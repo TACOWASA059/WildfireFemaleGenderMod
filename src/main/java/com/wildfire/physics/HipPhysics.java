@@ -18,7 +18,8 @@
     ---------------------------------------------------------------------------
     This file is part of the Wildfire's Female Gender Mod.
     Changes from the original version:
-    - added hip physics ( 2025-03-04)
+    -2025-03-04: tacowasa059 - added hip physics
+    -2025-03-06: tacowasa059 - added clipping for size
 */
 package com.wildfire.physics;
 
@@ -84,12 +85,14 @@ public class HipPhysics {
 			hipSize -= Math.abs(hipSize - targetHipSize) / 2f;
 		}
 
+		float clipped_targetHipSize = Math.min(targetHipSize, 0.8f);
+		float clipped_hipWeight = Math.min(hipWeight, 0.8f * 1.25f);
 
 		Vec3 motion = plr.position().subtract(this.prePos);
 		this.prePos = plr.position();
 		//WildfireGender.logger.debug("Motion: {}", motion);
 
-		float bounceIntensity = (targetHipSize * 3f) * genderPlayer.getBounceMultiplier();
+		float bounceIntensity = (clipped_targetHipSize * 3f) * genderPlayer.getBounceMultiplier();
 		if (!genderPlayer.getArmorPhysicsOverride()) { //skip resistance if physics is overridden
 			float resistance = Mth.clamp(armor.physicsResistance(), 0, 1);
 			//Adjust bounce intensity by physics resistance of the worn armor
@@ -107,7 +110,7 @@ public class HipPhysics {
 
 
 		this.targetBounceY = (float) motion.y * bounceIntensity;
-		this.targetBounceY += hipWeight;
+		this.targetBounceY += clipped_hipWeight;
 		//float horizVel = (float) Math.sqrt(Math.pow(motion.x, 2) + Math.pow(motion.z, 2)) * (bounceIntensity);
 		//float horizLocal = -horizVel * ((plr.getRotationYawHead()-plr.renderYawOffset)<0?-1:1);
 		this.targetRotVel = -((plr.yBodyRot - plr.yBodyRotO) / 15f) * bounceIntensity;
@@ -122,9 +125,11 @@ public class HipPhysics {
 
 		this.targetBounceY += Mth.cos(plr.walkAnimation.position() * 0.6662F + (float)Math.PI) * 0.5F * plr.walkAnimation.speed() * 0.5F / f;
 
+		//added
 		float walkPhase = plr.walkAnimation.position() * 0.6662F;
 		if(!isLeft) walkPhase += Math.PI;
-		float stepEffect = Mth.sin(walkPhase) * plr.walkAnimation.speed();
+		float stepEffect = Mth.sin(walkPhase) * plr.walkAnimation.speed() * 0.25f;
+		//
 
 		this.targetBounceY += stepEffect / f;
 
@@ -210,6 +215,7 @@ public class HipPhysics {
 		if(bounceVel > 2.5f) {
 			targetBounceY -= distanceFromMax;
 		}
+
 		if(targetBounceY < -1.5f) targetBounceY = -1.5f;
 		if(targetBounceY > 2.5f) targetBounceY = 2.5f;
 		if(targetRotVel < -25f) targetRotVel = -25f;
